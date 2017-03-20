@@ -55,7 +55,7 @@ void first_grid ()
 {
   // The first thing to do is to define an object for a triangulation of a
   // two-dimensional domain:
-  Triangulation<2> triangulation;
+  Triangulation<2> triangulation; // <2> is a template of the class Triangulation
   // Here and in many following cases, the string "<2>" after a class name
   // indicates that this is an object that shall work in two space
   // dimensions. Likewise, there are versions of the triangulation class that
@@ -67,14 +67,14 @@ void first_grid ()
   // Next, we want to fill the triangulation with a single cell for a square
   // domain. The triangulation is the refined four times, to yield $4^4=256$
   // cells in total:
-  GridGenerator::hyper_cube (triangulation);
+  GridGenerator::hyper_cube (triangulation); //GridGenerator is a namespace
   triangulation.refine_global (4);
 
   // Now we want to write a graphical representation of the mesh to an output
   // file. The GridOut class of deal.II can do that in a number of different
   // output formats; here, we choose encapsulated postscript (eps) format:
   std::ofstream out ("grid-1.eps");
-  GridOut grid_out;
+  GridOut grid_out; //grid_out is an object to the class GridOut
   grid_out.write_eps (triangulation, out);
   std::cout << "Grid written to grid-1.eps" << std::endl;
 }
@@ -95,12 +95,13 @@ void second_grid ()
   // point (1,0), and inner and outer radius shall be 0.5 and 1. The number of
   // circumferential cells could be adjusted automatically by this function,
   // but we choose to set it explicitly to 10 as the last argument:
-  const Point<2> center (1,0);
+  const Point<2> center (1,0); //Point is a class and center is its object
   const double inner_radius = 0.5,
                outer_radius = 1.0;
   GridGenerator::hyper_shell (triangulation,
                               center, inner_radius, outer_radius,
-                              10);
+                              10); 
+  // hyper_shell is a member function of class GridGenerator.
   // By default, the triangulation assumes that all boundaries are
   // straight lines, and all cells are bi-linear quads or tri-linear
   // hexes, and that they are defined by the cells of the coarse grid
@@ -136,6 +137,7 @@ void second_grid ()
   // you may want to look at the @ref GlossManifoldIndicator "glossary
   // entry on this topic".)
   const SphericalManifold<2> manifold_description(center);
+  // SphericalManifold is a class and its constructor reads an object from class Point.
   triangulation.set_manifold (0, manifold_description);
   triangulation.set_all_manifold_ids(0);
 
@@ -207,7 +209,7 @@ void second_grid ()
               // next cell.
               const double distance_from_center
                 = center.distance (cell->vertex(v));
-
+  // vertex(v) is a member function of the struct/object that cell (pointer) points to.
               if (std::fabs(distance_from_center - inner_radius) < 1e-10)
                 {
                   cell->set_refine_flag ();
