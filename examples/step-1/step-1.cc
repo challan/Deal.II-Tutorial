@@ -198,7 +198,7 @@ void second_grid ()
           // like a 4 that needs to be replaced by an 8:
           for (unsigned int v=0;
                v < GeometryInfo<2>::vertices_per_cell;
-               ++v)
+               ++v)//GeometryInfo<2>::vertices_per_cell returns 4 in 2D
             {
               // If this cell is at the inner boundary, then at least one of its
               // vertices must sit on the inner ring and therefore have a radial
@@ -209,8 +209,10 @@ void second_grid ()
               // next cell.
               const double distance_from_center
                 = center.distance (cell->vertex(v));
-  // vertex(v) is a member function of the struct/object that cell (pointer) points to.
-              if (std::fabs(distance_from_center - inner_radius) < 1e-10)
+  //cell is a reference to the cell.
+  //vertex(v) is a member function of the struct/object that cell (pointer) points to.
+  //cell->vertex(v) returns the coordinate of the vertex of the cell currently pointed at. 
+	if (std::fabs(distance_from_center - inner_radius) < 1e-10)
                 {
                   cell->set_refine_flag ();
                   break;
